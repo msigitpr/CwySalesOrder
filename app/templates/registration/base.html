@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'assets/img/logo-fav.png'%}">
+    <title>coway</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'beagle/lib/perfect-scrollbar/css/perfect-scrollbar.min.css'%}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'beagle/lib/material-design-icons/css/material-design-iconic-font.min.css'%}"/>
+    <link rel="stylesheet" href="{% static 'beagle/css/style.css'%}" type="text/css"/>
+  </head>
+  <body class="be-splash-screen">
+    {% block content %}
+    {% endblock %}
+    
+    <script src="{% static 'beagle/lib/jquery/jquery.min.js'%}" type="text/javascript"></script>
+    <script src="{% static 'beagle/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js'%}" type="text/javascript"></script>
+    <script src="{% static 'beagle/js/main.js'%}" type="text/javascript"></script>
+    <script src="{% static 'beagle/lib/bootstrap/dist/js/bootstrap.min.js'%}" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        //initialize the javascript
+        App.init();
+    });
+    
+    </script>
+  </body>
+</html>

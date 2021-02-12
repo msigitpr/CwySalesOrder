@@ -1,0 +1,151 @@
+{% extends 'html/base.html' %} 
+{% block content %}
+
+{% load user_group %}
+{% load widget_tweaks %}
+
+<div class="panel panel-default panel-border-color panel-border-color-danger">
+  <div class="panel-heading panel-heading-divider">Order Details</div>
+  <div class="panel-body">
+    <div class="row m-t-sm">
+      <div class="col-lg-12">
+        <div class="panel blank-panel">
+          <div class="panel-body">
+              <div class="tab-container">
+                <ul class="nav nav-tabs nav-tabs-classic" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" href="#tab-1" data-toggle="tab" role="tab">Order</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab-2" data-toggle="tab" role="tab">Customer</a></li>
+                </ul>
+                <div class="tab-content">
+                <div class="tab-pane active" id="tab-1">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12 margin-tb"></div>
+                            <div class="form-group col-md-8">
+                              <label>Order Number</label>
+                            <input type="text" class="form-control" value="{{ order.orderNo }}" disabled>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-12 margin-tb"></div>
+                            <div class="form-group col-md-8">
+                              <label>Promo Code</label>
+                            <input type="text" class="form-control" value="{{ order.promotionCode }}" disabled>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-lg-12 margin-tb"></div>
+                            <div class="form-group col-md-8">
+                              <label>Product</label>
+                            <input type="text" class="form-control" value="{{ orderDetail.productId }}" disabled>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-12 margin-tb"></div>
+                            <div class="form-group col-md-8">
+                              <label>Price</label>
+                            <input type="text" class="form-control" value="{{ orderDetail.productId.price }}" disabled>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-12 margin-tb"></div>
+                            <div class="form-group col-md-8">
+                              <label>Status</label>
+                              {% if order.status == 1 %}
+                                <input type="text" class="form-control" value="Pending" disabled>
+                                {% elif order.status == 2 %}
+                                <input type="text" class="form-control" value="Confirmed" disabled>
+                                {% elif order.status == 3 %}
+                                <input type="text" class="form-control" value="Done" disabled>
+                            {% endif %}
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-2">
+                    <div class="row">
+                        <div class="col-lg-12 margin-tb"></div>
+                        <div class="form-group col-md-8">
+                          <label>Customer Name</label>
+                        <input type="text" class="form-control" value="{{ order.custId }}" disabled>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-12 margin-tb"></div>
+                        <div class="form-group col-md-8">
+                          <label>Customer Phone</label>
+                        <input type="text" class="form-control" value="{{ order.custId.phone }}" disabled>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-12 margin-tb"></div>
+                        <div class="form-group col-md-8">
+                          <label>Address</label>
+                        <input type="text" class="form-control" value="{{ order.custId.address }}" disabled>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-12 margin-tb"></div>
+                        <div class="form-group col-md-8">
+                          <label>Description</label>
+                        <input type="text" class="form-control" value="{{ order.custId.description }}" disabled>
+                        </div>
+                      </div>
+                </div>
+                </div>
+                </div>
+        {% if order.status == 1 and user|is_group:"Sales Admin" %}
+            <div class="panel-heading panel-heading-divider">Confirm Order</div>
+            <div class="panel-body">
+                <form method="post" novalidate>
+                    {% csrf_token %} 
+                    {% for hidden_field in form.hidden_fields %}
+                    {{ hidden_field }} 
+                    {% endfor %} 
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-12 margin-tb"></div>
+                                <div class="form-group col-md-8">
+                                <label>{{ field.label_tag }}</label>
+                                    {% render_field field class="form-control" %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        {% elif order.status == 2 and user|is_group:"Technician" %}
+            <div class="panel-heading panel-heading-divider">Finish Order</div>
+            <div class="panel-body">
+                <form method="post" novalidate>
+                    {% csrf_token %} 
+                    {% for hidden_field in formInstall.hidden_fields %}
+                    {{ hidden_field }} 
+                    {% endfor %} 
+                    {% for field in formInstall.visible_fields %}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-12 margin-tb"></div>
+                                <div class="form-group col-md-8">
+                                <label>{{ field.label_tag }}</label>
+                                    {% render_field field class="form-control" %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
